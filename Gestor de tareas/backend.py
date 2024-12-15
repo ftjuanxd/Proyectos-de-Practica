@@ -9,6 +9,8 @@ route_file_task = "./assets/task.pkl"
 
 class Task:
 
+    message = "Error File Not Found"
+
     def __init__(self,name,description,state):
         self.name = name
         self.description = description
@@ -32,24 +34,36 @@ def save_task(task:list):
             pickle.dump(task,archivo)
         return "Task Saved"
     else:
-        return "File not Found"
+        return Task.message
 
 #Read Task
 def read_task():
-    saved_task= list()
     if file_test():
         with open(route_file_task,"rb") as archivo:
+            saved_task= list()
             while True:
                 try:
                     saved_task.append(pickle.load(archivo))
                 except EOFError:
                     break
+            return saved_task
     else:
-        return "File not Found"
+        return Task.message
+
+def delete_task(name_task:str):
+    tasks = read_task()
+    if tasks == Task.message:
+        return Task.message
     
-    for task in saved_task:
-            print(task)
+    #Filtra por el medio del parametro que el usuario a eliminar y solo guarda los que sean diferentes
+    tasks = [task for task in tasks if task.name != name_task]
     
+    with open(route_file_task,"wb") as file:
+        for task in tasks:
+            pickle.dump(task,file)
+
+    return f"The task with name: {name_task} was deleted."
+
 def get_route():
     current_directory = os.getcwd()
 

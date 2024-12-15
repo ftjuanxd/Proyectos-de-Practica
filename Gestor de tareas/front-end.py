@@ -19,7 +19,9 @@ def main():
         opcion = input("Elige una opción: ")
 
         if opcion == "1":
-            read_task()
+            tasks = read_task()
+            for task in tasks:
+                print(task)
         elif opcion == "2":
             #Inputs
             nombre = input("Cual es el nombre de la nueva tarea:")
@@ -38,5 +40,3 @@ def main():
         time.sleep(2)
 
 main()
-
-#hacer una aplicacion de gestion de tareas donde el usuario pueda ver, agregar, eliminar y marcar como completada las tareas
